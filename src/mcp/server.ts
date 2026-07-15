@@ -1,0 +1,22 @@
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { CustomerService } from "../application/customerService.ts";
+import { registerFindCustomerPrompt } from "./prompts/findCustomer.ts";
+import { registerApiInfoResource } from "./resources/apiInfo.ts";
+import { registerCreateCustomerTool } from "./tools/createCustomer.ts";
+import { registerGetCustomersTool } from "./tools/getCustomer.ts";
+import { registerListCustomersTool } from "./tools/listCustomers.ts";
+
+const BASE_URL = "http://localhost:9999/v1";
+
+const service = new CustomerService(BASE_URL);
+
+export const server = new McpServer({
+	name: "customers-mcp",
+	version: "0.0.1",
+});
+
+registerListCustomersTool(server, service);
+registerCreateCustomerTool(server, service);
+registerGetCustomersTool(server, service);
+registerApiInfoResource(server, BASE_URL);
+registerFindCustomerPrompt(server);
